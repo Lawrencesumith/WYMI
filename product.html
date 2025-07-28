@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>WYMI Jewelry - Product Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .product-container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .product-details img {
+            max-width: 300px;
+            border-radius: 8px;
+        }
+        .product-details h2 {
+            margin: 10px 0;
+        }
+        .recommendations {
+            margin-top: 20px;
+        }
+        .product-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .product-card {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            width: 200px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .product-card img {
+            max-width: 100px;
+            border-radius: 4px;
+        }
+        .error {
+            color: red;
+        }
+        button {
+            margin: 5px;
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="product-container">
+        <h1>Product Details</h1>
+        <div class="product-details" id="product-details">
+            <p>Loading product details...</p>
+        </div>
+        <div class="recommendations">
+            <h2>Recommended Products</h2>
+            <div id="recommendations"></div>
+        </div>
+    </div>
+    <script>
+        const products = [
+            { product_id: 1, category: 'Rings', material: 'Gold-Plated', price: 436, image: 'https://rubans.in/cdn/shop/files/rubans-18k-gold-plated-bow-design-adjustable-ring-with-cubic-zirconia-stones-for-women-finger-ring-1165374885.jpg?v=1750329619&width=1080' },
+            { product_id: 2, category: 'Rings', material: 'Silver-Plated', price: 75, image: 'https://rubans.in/cdn/shop/files/rubans-18k-gold-plated-snake-design-cubic-zirconia-studded-adjustable-ring-ring-38034176245934.jpg?v=1750331877&width=1080' },
+            { product_id: 3, category: 'Earrings', material: 'Pearl Imitation', price: 416, image: 'https://rubans.in/cdn/shop/files/rubans-24k-gold-plated-ruby-pink-kundan-green-beaded-handcrafted-shoulder-duster-earring-earrings-1144223644.jpg?v=1750329963&width=1080' },
+            { product_id: 4, category: 'Earrings', material: 'American Diamond', price: 351, image: 'http://rubans.in/cdn/shop/files/rubans-18k-gold-plated-cubic-zirconia-studded-heart-shape-hoop-earrings-earrings-1165374890.jpg?v=1750331706&width=900' },
+            { product_id: 5, category: 'Necklace', material: 'Silver-Plated', price: 287, image: 'https://rubans.in/cdn/shop/files/rubans-24k-gold-plated-cz-studded-temple-motif-designed-jewellery-set-necklace-set-33839911272622.jpg?v=1750340467&width=1080' },
+            { product_id: 6, category: 'Necklace', material: 'Gold-Plated', price: 185, image: 'https://rubans.in/cdn/shop/files/rubans-22k-gold-plated-ruby-stone-golden-beads-handcrafted-necklace-set-with-floral-medallions-necklaces-necklace-chain-37559070687406.jpg?v=1750332614&width=1080' },
+            { product_id: 7, category: 'Bangles', material: 'Oxidized', price: 210, image: 'https://rubans.in/cdn/shop/files/rubans-rhodium-plated-multicolor-cubic-zirconia-studded-premium-bangles-bangles-bracelets-1127509958.jpg?v=1750331326&width=1080' },
+            { product_id: 8, category: 'Bangles', material: 'Gold-Tone', price: 179, image: 'https://rubans.in/cdn/shop/files/rubans-set-of-2-22k-gold-plated-handcrafted-traditional-bridal-bangles-with-multicolor-enamel-work-bangles-1143857578.jpg?v=1750331744&width=1080' },
+            { product_id: 9, category: 'Bracelets', material: 'Pearl Imitation', price: 273, image: 'https://rubans.in/cdn/shop/products/tokyo-talkies-x-rubans-modern-center-stone-stackable-bracelets-bangles-bracelets-33662599200942.jpg?v=1750340373&width=1080' },
+            { product_id: 10, category: 'Bracelets', material: 'Silver-Plated', price: 482, image: 'https://rubans.in/cdn/shop/files/roadster-18k-gold-rhodium-plated-stainless-steel-link-chain-necklace-for-men-chain-necklace-1168575210.jpg?v=1750329487&width=1080' },
+            { product_id: 11, category: 'Anklets', material: 'Oxidized Silver', price: 132, image: 'https://rubans.in/cdn/shop/products/rubans-24k-gold-plated-handcrafted-ruby-with-paisley-shape-anklet-set-28348350922926.jpg?v=1678369704&width=1800' },
+            { product_id: 12, category: 'Anklets', material: 'Beaded', price: 158, image: 'https://rubans.in/cdn/shop/files/rubans-set-of-2-gold-plated-anklet-anklet-1143857724.jpg?v=1750330455&width=360' },
+            { product_id: 13, category: 'Maang Tikka', material: 'Gold-Plated', price: 249, image: 'https://rubans.in/cdn/shop/files/rubans-rhodium-plated-white-cubic-zirconia-maang-tikka-maang-tikka-1143857350.jpg?v=1750330351&width=1080' },
+            { product_id: 14, category: 'Maang Tikka', material: 'Kundan Style', price: 312, image: 'https://rubans.in/cdn/shop/files/rubans-rhodium-plated-cubic-zirconia-maang-tikka-maang-tikka-1143857375.jpg?v=1750330357&width=1080' },
+            { product_id: 15, category: 'Nose Pins', material: 'Stone-Studded', price: 110, image: 'https://rubans.in/cdn/shop/products/rubans-silver-plated-handcrafted-zircon-stone-nose-clip-nosepin-23370023370926.jpg?v=1628458865&width=360' },
+            { product_id: 16, category: 'Nose Pins', material: 'Gold-Plated', price: 99, image: 'https://rubans.in/cdn/shop/files/rubans-rose-gold-plated-handcrafted-zircon-stone-nose-clip-accessories-35074289238190.jpg?v=1701840871&width=1080' },
+            { product_id: 17, category: 'Waist Chains', material: 'Pearl Chain', price: 390, image: 'https://rubans.in/cdn/shop/files/rubans-18k-gold-plated-kundan-pearl-beaded-waist-chain-saree-accessories-saree-accessories-1143859006.jpg?v=1750330739&width=360' },
+            { product_id: 18, category: 'Waist Chains', material: 'Gold-Plated', price: 450, image: 'https://rubans.in/cdn/shop/files/rubans-22k-gold-plated-pearl-beaded-handcrafted-traditional-kamarbandh-saree-accessories-1143859037.jpg?v=1750330745&width=1080' },
+            { product_id: 19, category: 'Brooches', material: 'American Diamond', price: 220, image: 'https://cdn.shopify.com/s/files/1/2015/7815/files/rubans-gold-plated-red-green-stone-studded-temple-jewellery-set-necklace-set-33613007782062_480x480.webp?v=1713591155' },
+            { product_id: 20, category: 'Brooches', material: 'Gold-Tone', price: 180, image: 'https://cdn.shopify.com/s/files/1/2015/7815/files/rubans-24k-gold-plated-temple-necklace-set-with-goddess-motifs-jewelry-sets-32112588062894_480x480.jpg?v=1713591233' }
+        ];
+
+        async function logActivity(productId, activityType) {
+            try {
+                const response = await fetch('http://localhost:8000/log_activity', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': 'wymi-secret-key'
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        product_id: productId,
+                        activity_type: activityType
+                    })
+                });
+                if (!response.ok) throw new Error(`Failed to log ${activityType}: ${response.status}`);
+                console.log(`Logged ${activityType} for product ${productId}`);
+            } catch (error) {
+                console.error('Log activity error:', error);
+            }
+        }
+
+        async function fetchProductDetails(productId) {
+            try {
+                const response = await fetch(`http://localhost:8000/product/${productId}`, {
+                    headers: { 'X-API-Key': 'wymi-secret-key' }
+                });
+                if (!response.ok) throw new Error(`Fetch product failed: ${response.status}`);
+                const data = await response.json();
+                console.log('Product details:', data);
+                const product = products.find(p => p.product_id === data.product_id) || {
+                    image: 'https://rubans.in/cdn/shop/files/rubans-22k-gold-plated-ruby-stone-golden-beads-handcrafted-necklace-set-with-floral-medallions-necklaces-necklace-chain-37559070687406.jpg?v=1750332614&width=1080'
+                };
+                const productDiv = document.getElementById('product-details');
+                productDiv.innerHTML = `
+                    <img src="${product.image}" alt="${data.category}" class="product-image">
+                    <h2>${data.category}</h2>
+                    <p>Material: ${data.material}</p>
+                    <p>Price: $${data.price}</p>
+                    <button onclick="handleAction(${data.product_id}, 'buy')">Buy Now</button>
+                    <button onclick="handleAction(${data.product_id}, 'cart')">Add to Cart</button>
+                    <button onclick="handleAction(${data.product_id}, 'wishlist')">Wishlist</button>
+                `;
+            } catch (error) {
+                console.error('Product fetch error:', error);
+                document.getElementById('product-details').innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        }
+
+        async function fetchRecommendations(productId, userId) {
+            try {
+                const response = await fetch(`http://localhost:8000/product/${productId}/recommend?user_id=${userId}`, {
+                    headers: { 'X-API-Key': 'wymi-secret-key' }
+                });
+                if (!response.ok) throw new Error(`Fetch recommendations failed: ${response.status}`);
+                const data = await response.json();
+                console.log('Product recommendations:', data);
+                const recsDiv = document.getElementById('recommendations');
+                recsDiv.innerHTML = '';
+                if (data.suggestion) {
+                    recsDiv.innerHTML = `<p>${data.suggestion}</p>`;
+                }
+                const ul = document.createElement('ul');
+                ul.className = 'product-list';
+                data.recommendations.forEach(item => {
+                    const product = products.find(p => p.product_id === item.product_id) || {
+                        image: 'https://rubans.in/cdn/shop/files/rubans-22k-gold-plated-ruby-stone-golden-beads-handcrafted-necklace-set-with-floral-medallions-necklaces-necklace-chain-37559070687406.jpg?v=1750332614&width=1080'
+                    };
+                    const li = document.createElement('li');
+                    li.className = 'product-card';
+                    li.innerHTML = `
+                        <img src="${product.image}" alt="${item.category}" class="product-image">
+                        <h3>${item.category} (${item.material})</h3>
+                        <p>$${item.price}</p>
+                        <p>Rating: ${item.predicted_rating.toFixed(1)}</p>
+                        <button onclick="handleAction(${item.product_id}, 'buy')">Buy Now</button>
+                        <button onclick="handleAction(${item.product_id}, 'cart')">Add to Cart</button>
+                        <button onclick="handleAction(${item.product_id}, 'wishlist')">Wishlist</button>
+                    `;
+                    li.addEventListener('click', () => {
+                        logActivity(item.product_id, 'CLICK').then(() => {
+                            window.location.href = `product.html?product_id=${item.product_id}&user_id=${userId}`;
+                        });
+                    });
+                    ul.appendChild(li);
+                });
+                recsDiv.appendChild(ul);
+            } catch (error) {
+                console.error('Recommendations error:', error);
+                document.getElementById('recommendations').innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        }
+
+        async function handleAction(productId, action) {
+            const activityType = action === 'buy' ? 'CLICK' : 'CLICK';
+            await logActivity(productId, activityType);
+            if (action === 'buy') {
+                try {
+                    const product = products.find(p => p.product_id === productId);
+                    const response = await fetch('http://localhost:8001/insert_order', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            user_id: userId,
+                            product_id: productId,
+                            price: product.price
+                        })
+                    });
+                    if (!response.ok) throw new Error(`Buy failed: ${response.status}`);
+                    console.log(`Purchased product ${productId}`);
+                    alert('Purchase successful!');
+                } catch (error) {
+                    console.error('Buy error:', error);
+                    alert(`Purchase failed: ${error.message}`);
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = parseInt(urlParams.get('product_id'));
+            const userId = urlParams.get('user_id') || '100';
+            if (productId) {
+                fetchProductDetails(productId);
+                fetchRecommendations(productId, userId);
+                logActivity(productId, 'VIEW');
+            } else {
+                document.getElementById('product-details').innerHTML = '<p class="error">No product ID provided</p>';
+            }
+        });
+    </script>
+</body>
+</html>

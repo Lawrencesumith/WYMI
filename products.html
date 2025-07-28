@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WYMI Jewelry - Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white font-roboto">
+    <header class="bg-black py-4 shadow-lg">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <h1 class="text-3xl font-playfair text-gold">WYMI Jewelry</h1>
+            <nav>
+                <a href="index.html" class="text-gold hover:text-white mx-4">Search</a>
+                <a href="products.html" class="text-gold hover:text-white mx-4">Products</a>
+            </nav>
+        </div>
+    </header>
+    <main class="container mx-auto px-4 py-12">
+        <section>
+            <h2 class="text-4xl font-playfair mb-6 text-center">Our Collection</h2>
+            <div id="productList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </section>
+        <section class="mt-12">
+            <h2 class="text-4xl font-playfair mb-6 text-center">Recommended for You</h2>
+            <div id="recommendations" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </section>
+    </main>
+    <footer class="bg-black py-4 mt-12">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-400">© 2025 WYMI Jewelry. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="js/scripts.js"></script>
+</body>
+</html>
